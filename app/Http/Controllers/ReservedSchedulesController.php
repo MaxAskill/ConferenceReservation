@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\MailNotify;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
-use Spatie\GoogleCalendar\Event;
+//use Spatie\GoogleCalendar\Event;
 
 class ReservedSchedulesController extends Controller
 {
@@ -30,6 +30,7 @@ class ReservedSchedulesController extends Controller
      //Saving of the Reservation
     public function createReservation(Request $request)
     {
+
         $date = new \DateTime('today');
 
         $time_start = \DateTime::createFromFormat('Y-m-d H:i', $date->format('Y-m-d') . ' ' . $request->time_start);
@@ -62,15 +63,15 @@ class ReservedSchedulesController extends Controller
             //     'startDateTime' => Carbon::parse($request->date.' '.$request->time_start, 'Asia/Manila'),
             //     'endDateTime' => Carbon::parse($request->date.' '.$request->time_end, 'Asia/Manila'),
             // ]);
-            $event = new Event;
+            // $event = new Event;
 
-            $event->name = $request->department.' [ '.$request->purpose.' ]';
-            $event->startDateTime = Carbon::parse($request->date.' '.$request->time_start, 'Asia/Manila');
-            $event->endDateTime = Carbon::parse($request->date.' '.$request->time_end, 'Asia/Manila');
-            $event->description = $request->conference_room.'<br />Reserved by: '.$request->employee_name;
-            $event->setColorId($this->getEventColorID($request->conference_room));
+            // $event->name = $request->department.' [ '.$request->purpose.' ]';
+            // $event->startDateTime = Carbon::parse($request->date.' '.$request->time_start, 'Asia/Manila');
+            // $event->endDateTime = Carbon::parse($request->date.' '.$request->time_end, 'Asia/Manila');
+            // $event->description = $request->conference_room.'<br />Reserved by: '.$request->employee_name;
+            // $event->setColorId($this->getEventColorID($request->conference_room));
 
-            $newEvent = $event->save();
+            // $newEvent = $event->save();
             //End Saving as Event
 
             $newreservation = new ReservedSchedules;
@@ -85,7 +86,7 @@ class ReservedSchedulesController extends Controller
             $newreservation->equipment = $request->equipment ;
             $newreservation->ct_arrangement = $request->ct_arrangement ;
             $newreservation->status = "Reserved" ;
-            $newreservation->event_id = $newEvent->id; //add column on the db table
+            //$newreservation->event_id = $newEvent->id; //add column on the db table
 
             $newreservation->save();
 
@@ -96,22 +97,22 @@ class ReservedSchedulesController extends Controller
             $timestamp = strtotime($date);
             $formattedDate = date("F j, Y", $timestamp);
 
-            $mail = array(
-                'name' => $request->name,
-                'conferenceRoom' => $request->conference_room,
-                'date' => $formattedDate,
-                'name' => $request->employee_name,
-                'timeStart' => $timeStart,
-                'timeEnd' => $timeEnd,
-                'email' => $request->email,
-                'department' => $request->department,
-                'equipment' => $request->equipment,
-                'ct_arrangement' => $request->ct_arrangement,
-                'timeSlot' => $timeStart . ' to ' . $timeEnd,
-                'status' => 'Reserved'
-            );
+            // $mail = array(
+            //     'name' => $request->name,
+            //     'conferenceRoom' => $request->conference_room,
+            //     'date' => $formattedDate,
+            //     'name' => $request->employee_name,
+            //     'timeStart' => $timeStart,
+            //     'timeEnd' => $timeEnd,
+            //     'email' => $request->email,
+            //     'department' => $request->department,
+            //     'equipment' => $request->equipment,
+            //     'ct_arrangement' => $request->ct_arrangement,
+            //     'timeSlot' => $timeStart . ' to ' . $timeEnd,
+            //     'status' => 'Reserved'
+            // );
 
-            Mail::to($request->email)->send(new MailNotify($mail));
+            // Mail::to($request->email)->send(new MailNotify($mail));
 
             $id = DB::table('reserved_schedules')
                         ->select('id')

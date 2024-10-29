@@ -741,6 +741,7 @@ export default {
       // return decision;
     },
     reserveConferenceRoom() {
+        console.log("Data:", this.reservationInformation);
       this.formValidation();
       let decision = Object.values(this.isValid).includes(true) ? true : false;
 
@@ -790,8 +791,11 @@ export default {
             this.checkLogin();
             this.isLoadingBtn = false;
             this.$emit("fetchMeeting");
+            console.log("Success");
+            console.log(response);
           })
           .catch((error) => {
+            console.log("Error");
             console.error(error);
           });
       }

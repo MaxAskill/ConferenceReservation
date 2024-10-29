@@ -13,10 +13,17 @@ return new class extends Migration
     {
         Schema::create('reserved_schedules', function (Blueprint $table) {
             $table->id();
-            $table->string('employee_name');
-            $table->string('purpose');
+            $table->string('event_id');
             $table->date('date');
+            $table->string('employee_name');
+            $table->timestamp('time_start');
+            $table->timestamp('time_end')->nullable();
+            $table->string('email');
             $table->string('department', 100);
+            $table->string('purpose');
+            $table->string('equipment');
+            $table->string('ct_arrangement');
+            $table->string('status');
             $table->string('conference_room', 100);
             $table->timestamps();
         });
